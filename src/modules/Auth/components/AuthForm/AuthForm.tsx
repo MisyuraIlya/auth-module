@@ -48,12 +48,12 @@ const AuthForm = () => {
                 {errors.password && <span>This field is required</span>}
             </div>
             <div className='auth'>
-                <span onClick={() => handleSwitch(false)}>Login</span>
+                <span data-testid="login-btn" onClick={() => handleSwitch(false)}>Login</span>
                 <span>|</span>
-                <span onClick={() => handleSwitch(true)}>Register</span>
+                <span data-testid="register-btn" onClick={() => handleSwitch(true)}>Register</span>
             </div>
             <div className='button'>
-                <button  type="submit">{isRegister ? 'Register' : 'Login'}</button>
+                <button data-testid="auth-btn" type="submit">{isRegister ? 'Register' : 'Login'}</button>
             </div>
             </form>
         </div>
