@@ -5,7 +5,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 describe('AuthForm', () => {
   test('renders login form by default', () => {
     render(<AuthForm />);
-    const loginHeading = screen.getByTestId('login-heading');
+    const loginHeading = screen.getByTestId('auth-heading');
     expect(loginHeading).toBeInTheDocument();
   });
 

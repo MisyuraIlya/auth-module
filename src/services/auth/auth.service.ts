@@ -14,15 +14,22 @@ type AuthResponse = {
 }
 
 export const AuthService = {
-    async auth(type: 'login' | 'register', data: Auth){
-        const response = await axios<AuthResponse>({
-            url: `http://localhost:4000/auth/${type}`,
-            method:'POST',
-            data
-        })
-        
-        if(response.data.accessToken) saveToStorage(response.data)
+    async auth(type: 'login' | 'register' | 'validation' | 'twoFactor', data: Auth){
+        if(type === 'validation'){
+            return true;
+        } else if(type === 'twoFactor') {
+            return true;
+        } else {
+            const response = await axios<AuthResponse>({
+                url: `http://localhost:4000/auth/${type}`,
+                method:'POST',
+                data
+            })
+            
+            if(response.data.accessToken) saveToStorage(response.data)
+    
+            return response.data
+        }
 
-        return response.data
     },
 }
