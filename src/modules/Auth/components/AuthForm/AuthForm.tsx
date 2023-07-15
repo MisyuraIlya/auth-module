@@ -24,7 +24,7 @@ const AuthForm = () => {
     return (
         <div className='container-auth'>
             <form onSubmit={handleSubmit(onSubmit)} className='form'>
-            <h1 className='head'>{isRegister ? 'Register' : 'Login'}</h1>
+            <h1 data-testid="login-heading" className='head'>{isRegister ? 'Register' : 'Login'}</h1>
             <div className='input'>
                 <input {...register("email")}  placeholder='email'/>
                 {errors.email && <span>This field is required</span>}
