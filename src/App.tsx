@@ -1,0 +1,65 @@
+import React, { useState } from 'react';
+import logo from './logo.svg';
+import { useForm, SubmitHandler } from "react-hook-form";
+import './App.css';
+import { AuthService } from './services/auth/auth.service';
+
+type Inputs = {
+  email: string,
+  password: string,
+  firstName?: string
+  lastName?: string
+};
+
+function App() {
+  const [isRegister, setIsRegister] = useState(false)
+  const { register, handleSubmit, reset ,watch, formState: { errors } } = useForm<Inputs>();
+
+  const handleSwitch = (type: boolean) => {
+    reset()
+    setIsRegister(type)
+  }
+  const onSubmit: SubmitHandler<Inputs> = data => AuthService.auth(isRegister ? 'register' : 'login', data)
+
+  return (
+    <div className="App">
+      <div className='container-auth'>
+        <form onSubmit={handleSubmit(onSubmit)} className='form'>
+          <h1 className='head'>{isRegister ? 'Register' : 'Login'}</h1>
+           <div className='input'>
+            <input {...register("email")}  placeholder='email'/>
+            {errors.email && <span>This field is required</span>}
+          </div>
+          {
+            isRegister &&
+            <>
+            <div className='input'>
+              <input {...register("firstName")}  placeholder='firstName'/>
+              {errors.email && <span>This field is required</span>}
+            </div>
+            <div className='input'>
+              <input {...register("lastName")}  placeholder='lastName'/>
+              {errors.email && <span>This field is required</span>}
+            </div>
+            </>
+          }
+
+          <div className='input'>
+            <input {...register("password", { required: true })} placeholder='password'/>
+            {errors.password && <span>This field is required</span>}
+          </div>
+          <div className='auth'>
+              <span onClick={() => handleSwitch(false)}>Login</span>
+              <span>|</span>
+              <span onClick={() => handleSwitch(true)}>Register</span>
+          </div>
+          <div className='button'>
+            <button  type="submit">{isRegister ? 'Register' : 'Login'}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export default App;
