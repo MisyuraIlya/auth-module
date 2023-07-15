@@ -3,9 +3,9 @@ import AuthForm from './components/AuthForm/AuthForm';
 
 const AuthModule = () => {
     return (
-        <div>
+        <>
             <AuthForm/>
-        </div>
+        </>
     );
 };
 
