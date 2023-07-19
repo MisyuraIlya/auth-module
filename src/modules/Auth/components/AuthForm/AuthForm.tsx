@@ -1,39 +1,29 @@
-import React, {useState} from 'react';
-import { AuthService } from '../../../../services/auth/auth.service';
+import React, {useEffect, useState} from 'react';
+import { AuthService } from '../../services/auth/auth.service';
 import { useForm, SubmitHandler } from "react-hook-form";
 import OtpInput from 'react-otp-input';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthFormInputs, AuthType } from '../../types/AuthTypes';
+import AuthBottom from '../AuthBottom/AuthBottom';
 
-type Inputs = {
-    email: string,
-    password: string,
-    //--for register----
-    firstName?: string,
-    lastName?: string,
-    //------------------
-    //--for validation--
-    userExId?: string,
-    phone?: string
-    //------------------
-    token?: string
-
-
-
-  };
-
-  type AuthType = "login" | "register" | "validation" | "twoFactor" | "forgotPassword" | "validMailPasswordResore" | "restorePassword";
 
 const AuthForm = () => {
 
     const [otp, setOtp] = useState('');
     const [type, setType] = useState<AuthType>('login')
-    const { register, handleSubmit, reset , formState: { errors } } = useForm<Inputs>();
-  
-    const handleSwitch = (type: 'login' | 'register' | 'validation' | "twoFactor" | "forgotPassword" | "validMailPasswordResore" | "restorePassword" ) => {
+    const { register, handleSubmit, reset , formState: { errors } } = useForm<AuthFormInputs>();
+    const [phoneRestore, setPhoneRestore] = useState<string>('')
+    let navigate = useNavigate();
+    let location = useLocation()
+    let path = location.pathname.split('/')[1]
+
+    const handleSwitch = (type: AuthType ) => {
       reset()
       setType(type)
+      navigate(`/${type}`)
 
     }
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const onSubmit: SubmitHandler<AuthFormInputs> = async (data) => {
         if(otp) {
             data.token = otp
         }
@@ -42,6 +32,7 @@ const AuthForm = () => {
             reset()
             if(response) {
                 setType('twoFactor')
+                navigate(`/twoFactor`)
             }
         }
         if(type === 'twoFactor') {
@@ -49,23 +40,54 @@ const AuthForm = () => {
             setOtp('')
             if(response) {
                 setType('register')
+                navigate(`/register`)
             } 
         }
 
         if(type === 'forgotPassword') {
+           setPhoneRestore(data.phone!) 
            setType('validMailPasswordResore') 
+           navigate(`/validMailPasswordResore`)
         }   
 
         if(type === 'validMailPasswordResore') {
             setType('restorePassword') 
+            navigate(`/restorePassword`)
          }   
 
 
          if(type === 'restorePassword') {
             setType('login')
+            navigate(`/login`)
+            setOtp('')
          }
 
     }
+
+    const handleType = (path: string) => {
+        if(path == 'login') {
+            setType('login')
+        } else if (path == 'register') {
+            setType('register')
+        } else if (path == 'validation') {
+            setType('validation')
+        } else if (path == 'twoFactor') {
+            setType('twoFactor')
+        } else if (path == 'forgotPassword') {
+            setType('forgotPassword')
+        } else if (path == 'validMailPasswordResore') {
+            setType('validMailPasswordResore')
+        } else if (path == 'restorePassword') {
+            setType('restorePassword')
+        } else {
+            setType('login')
+        }
+    }
+
+
+    useEffect(() => {
+        handleType(path)
+    },[path])
 
 
 
@@ -73,7 +95,7 @@ const AuthForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} className='border border-gray-500 rounded-lg text-center px-12 py-10'>
             <h1 id="auth-heading" data-testid="auth-heading" className='font-bold text-xl'>{type}</h1>
 
-            {(type === 'login' || type === 'register' || type === 'forgotPassword') &&
+            {(type === 'login' || type === 'register') &&
                 <div>
                     <input id="email" {...register("email")}  placeholder='email' className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'/>
                     {errors.email && <span>This field is required</span>}
@@ -94,16 +116,20 @@ const AuthForm = () => {
             }
             {
                 type === 'validation' &&
-                <>
                     <div>
                         <input id="userExId" {...register("userExId")}  placeholder='userExId' className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'/>
                         {errors.userExId && <span>This field is required</span>}
                     </div>
-                    <div>
-                        <input id="phone" {...register("phone")}  placeholder='phone' className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'/>
-                        {errors.phone && <span>This field is required</span>}
-                    </div>
-                </>
+   
+            }
+
+            {
+                 (type === 'validation' || type === 'forgotPassword') &&
+                 <div>
+                    <input id="phone" {...register("phone")}  placeholder='phone' className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'/>
+                    {errors.phone && <span>This field is required</span>}
+                </div>
+
             }
             {
                 (type === 'login' || type === 'register' || type === 'restorePassword') &&
@@ -126,26 +152,8 @@ const AuthForm = () => {
                 </div>
             }
 
+            <AuthBottom type={type} phoneRestore={phoneRestore} handleSwitch={handleSwitch}/>
 
-            { (type === 'login' || type === 'register' || type === 'validation' ) &&
-                <>
-                <div className='auth flex items-center justify-center gap-4 text-lg'>
-                    <span id="login-btn" data-testid="login-btn" className='cursor-pointer' onClick={() => handleSwitch('login')}>Login</span>
-                    <span>|</span>
-                    <span id="register-btn" data-testid="register-btn" className='cursor-pointer' onClick={() => handleSwitch('validation')}>Register</span>
-                </div>
-                <div>
-                    <span className='underline cursor-pointer' onClick={() => handleSwitch('forgotPassword')}>forgot password?</span>
-                </div>
-                </>
-            } 
-
-            {/* {
-                type === 'validMailPasswordResore' &&
-                <div className='py-2'>
-                    <button className='underline cursor-pointer' onClick={() => handleSwitch('forgotPassword')}>dont get mail/sms ?</button>
-                </div>
-            } */}
 
             <div className='m-2'>
                 <button id="auth-btn" data-testid="auth-btn" type="submit" className='font-bold bg-blue-400 text-white py-2 rounded-xl px-12 hover:bg-blue-600'>{type}</button>

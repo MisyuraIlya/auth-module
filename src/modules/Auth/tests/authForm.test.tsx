@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen, act } from '@testing-library/react';
 import AuthForm from '../components/AuthForm/AuthForm';
-import { AuthService } from '../../../services/auth/auth.service';
+import { AuthService } from '../services/auth/auth.service';
 describe('AuthForm', () => {
   test('renders login form by default', () => {
     render(<AuthForm />);

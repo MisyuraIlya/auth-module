@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IUser } from "../../types/user.interface";
+import { IUser } from "../../../../types/user.interface";
 import { saveToStorage } from "./auth.helper";
 
 type Auth = {
@@ -24,7 +24,6 @@ type AuthResponse = {
 
 export const AuthService = {
     async auth(type: 'login' | 'register' | 'validation' | 'twoFactor' | 'forgotPassword' | 'restorePassword' | 'validMailPasswordResore', data: Auth){
-        console.log('data',data)
         if(type === 'validation'){
             return true;
         } else if(type === 'twoFactor') {
@@ -48,4 +47,7 @@ export const AuthService = {
         }
 
     },
+    async resendToken(data: string) {
+        console.log(data)
+    }
 }
