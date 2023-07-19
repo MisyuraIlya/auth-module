@@ -2,20 +2,20 @@ import React from 'react';
 import { Routes, Route} from 'react-router-dom';
 import AuthModule from './modules/Auth/AuthModule';
 import HomePage from './HomePage';
+import { APP_ROUTER } from './config/router';
 const RouterApp = () => {
 
-    // const handleSwitch = (type: 'login' | 'register' | 'validation' | "twoFactor" | "forgotPassword" | "validMailPasswordResore" | "restorePassword"
     return (
         <Routes>
             <Route>
                 <Route path="/" element={<HomePage/>} />
-                <Route path='/login' element={<AuthModule/>}/>
-                <Route path='/register' element={<AuthModule/>}/>
-                <Route path='/validation' element={<AuthModule/>}/>
-                <Route path='/twoFactor' element={<AuthModule/>}/>
-                <Route path='/forgotPassword' element={<AuthModule/>}/>
-                <Route path='/validMailPasswordResore' element={<AuthModule/>}/>
-                <Route path='/restorePassword' element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.LOGIN.LINK} element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.REGISTER.LINK} element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.VALIDATION.LINK} element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.TWO_FACTOR.LINK} element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.FORGOT_PASSWORD.LINK} element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.VALID_USER_PASSWORD_RESTORE.LINK} element={<AuthModule/>}/>
+                <Route path={APP_ROUTER.RESTORE_PASSWORD.LINK} element={<AuthModule/>}/>
             </Route>
         </Routes>
     );

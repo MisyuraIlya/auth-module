@@ -1,6 +1,7 @@
 import axios from "axios"
 import { IUser } from "../../../../types/user.interface";
 import { saveToStorage } from "./auth.helper";
+import { AuthType } from "../../types/AuthTypes";
 
 type Auth = {
     email: string,
@@ -23,14 +24,14 @@ type AuthResponse = {
 }
 
 export const AuthService = {
-    async auth(type: 'login' | 'register' | 'validation' | 'twoFactor' | 'forgotPassword' | 'restorePassword' | 'validMailPasswordResore', data: Auth){
+    async auth(type: AuthType, data: Auth){
         if(type === 'validation'){
             return true;
         } else if(type === 'twoFactor') {
             return true;
         } else if (type === 'forgotPassword') {
             return true;
-        } else if (type === 'validMailPasswordResore') {
+        } else if (type === 'validPasswordResore') {
             return true   
         } else if (type === 'restorePassword') {
             return true

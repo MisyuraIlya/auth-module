@@ -11,4 +11,4 @@ export type AuthFormInputs = {
     //------------------
     token?: string
 }
-export type AuthType = "login" | "register" | "validation" | "twoFactor" | "forgotPassword" | "validMailPasswordResore" | "restorePassword";
+export type AuthType = "login" | "register" | "validation" | "twoFactor" | "forgotPassword" | "validPasswordResore" | "restorePassword";
