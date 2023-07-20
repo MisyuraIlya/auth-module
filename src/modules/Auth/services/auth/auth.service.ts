@@ -23,29 +23,35 @@ type AuthResponse = {
     refreshToken: string
 }
 
+const Controller = 'AuthController'
+const IsRestApi = process.env.isRestApi
 export const AuthService = {
     async auth(type: AuthType, data: Auth){
-        if(type === 'validation'){
-            return true;
-        } else if(type === 'twoFactor') {
-            return true;
-        } else if (type === 'forgotPassword') {
-            return true;
-        } else if (type === 'validPasswordResore') {
-            return true   
-        } else if (type === 'restorePassword') {
-            return true
+        let url 
+
+        if(IsRestApi) {
+            url = process.env.SERVER
         } else {
-            const response = await axios<AuthResponse>({
-                url: `http://localhost:4000/auth/${type}`,
-                method:'POST',
-                data
-            })
-            
-            if(response.data.accessToken) saveToStorage(response.data)
-    
-            return response.data
+            url = process.env.SERVER + `/auth/${type}`
         }
+        
+        if(IsRestApi) {
+            data = {
+                classPoint: Controller,
+                funcName: type,
+                val: data
+              };
+        }
+
+        const response = await axios<AuthResponse>({
+            url: url,
+            method:'POST',
+            data
+        })
+        
+        if(response.data.accessToken) saveToStorage(response.data)
+
+        return response.data
 
     },
     async resendToken(data: string) {

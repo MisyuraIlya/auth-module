@@ -1,14 +1,11 @@
 export type AuthFormInputs = {
+    userExId?: string,
     email: string,
     password: string,
-    //--for register----
+    phone?: string
+    token?: string
     firstName?: string,
     lastName?: string,
-    //------------------
-    //--for validation--
-    userExId?: string,
-    phone?: string
-    //------------------
-    token?: string
+    refreshToken?: string
 }
-export type AuthType = "login" | "register" | "validation" | "twoFactor" | "forgotPassword" | "validPasswordResore" | "restorePassword";
+export type AuthType = "login" | "register" | "validation" | "twoFactor" | "forgotPassword" | "validPasswordRestore" | "restorePassword" | "accessToken";
