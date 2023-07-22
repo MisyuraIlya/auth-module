@@ -25,8 +25,8 @@ export const APP_ROUTER = {
         NAME:'שחכתי סיסמא'
     },
     VALID_USER_PASSWORD_RESTORE : {
-        LINK:'/validPasswordResore',
-        TYPE:'validPasswordResore',
+        LINK:'/validPasswordRestore',
+        TYPE:'validPasswordRestore',
         NAME:'אימות'
     },
     RESTORE_PASSWORD : {

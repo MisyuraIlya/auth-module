@@ -2,8 +2,8 @@ import React, {FC} from 'react';
 import { AuthType } from '../../types/AuthTypes';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../../services/auth/auth.service';
-import { APP_ROUTER } from '../../../../config/router';
-import { FORM_PLACEHOLDER, PLACEHOLDERS } from '../../../../config/placeholders';
+import { APP_ROUTER } from '../../config/router';
+import { FORM_PLACEHOLDER, PLACEHOLDERS } from '../../config/placeholders';
 FORM_PLACEHOLDER
 type AuthBottomProps = {
     type: AuthType
@@ -18,9 +18,9 @@ const AuthBottom:FC<AuthBottomProps> = ({type,phoneRestore,handleSwitch}) => {
             { (type === APP_ROUTER.LOGIN.TYPE || type === APP_ROUTER.REGISTER.TYPE || type === APP_ROUTER.VALIDATION.TYPE ) &&
                 <>
                 <div className='auth flex items-center justify-center gap-4 text-lg'>
-                    <span id="login-btn" data-testid="login-btn" className='cursor-pointer' onClick={() => handleSwitch(APP_ROUTER.LOGIN.TYPE)}>{PLACEHOLDERS.LOGIN.LABEL}</span>
+                    <span id="login-btn" data-testid="login-btn" className='cursor-pointer' onClick={() => handleSwitch(APP_ROUTER.LOGIN.TYPE  as AuthType)}>{PLACEHOLDERS.LOGIN.LABEL}</span>
                     <span>|</span>
-                    <span id="register-btn" data-testid="register-btn" className='cursor-pointer' onClick={() => handleSwitch(APP_ROUTER.VALIDATION.TYPE)}>{PLACEHOLDERS.REGISTER.LABEL}</span>
+                    <span id="register-btn" data-testid="register-btn" className='cursor-pointer' onClick={() => handleSwitch(APP_ROUTER.VALIDATION.TYPE  as AuthType)}>{PLACEHOLDERS.REGISTER.LABEL}</span>
                 </div>
                 <div>
                     <span className='underline cursor-pointer' onClick={() => handleSwitch('forgotPassword')}>{PLACEHOLDERS.FORGOT_PASSWORD.LABEL}</span>

@@ -1,3 +1,5 @@
+import { FORM_PLACEHOLDER, PLACEHOLDERS } from "../config/placeholders"
+// TODO NEED TO SOLVE THE ISSUE FOR ENUMS 
 export type AuthFormInputs = {
     userExId?: string,
     email: string,

@@ -13,3 +13,4 @@
 6. npm install sass
 7. npm i react-router-dom
 8. npm i react-otp-input
+9. npm install react-redux redux-persist @reduxjs/toolkit

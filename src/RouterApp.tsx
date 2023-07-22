@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route} from 'react-router-dom';
 import AuthModule from './modules/Auth/AuthModule';
 import HomePage from './HomePage';
-import { APP_ROUTER } from './config/router';
+import { APP_ROUTER } from './modules/Auth/config/router';
 const RouterApp = () => {
 
     return (
