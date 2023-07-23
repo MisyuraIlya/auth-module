@@ -1,36 +1,19 @@
-import { IUser } from "@/types/user.interface"
-
-export interface IUserState {
-    id: number
-    email: string
-    name: string
-    firstName: string
-    lastName: string
-    userType: {
-        id: number
-        title: 'admin' | 'student'| 'teacher'
-    }
-    isAdmin: boolean
-}
-
-export interface ITokens {
-    accessToken: string
-    refreshToken: string
-}
-
+import { IUser } from "../../types/user.interface"
 export interface IInitialState {
-    user: IUserState | null
+    user: IUser | null
     isLoading: boolean
-    
+}
+export interface IRegister {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
+export interface ILogin {
+    email: string;
+    password: string;
 }
 
-export interface IEmailPassword {
-    email: string
-    password: string
-}
-
-export interface IAuthResponse extends ITokens {
-    user: IUser & {
-        isAdmin: boolean
-    }
+export interface IGetAccessToken {
+    refreshToken: string
 }

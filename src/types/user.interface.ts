@@ -1,24 +1,18 @@
 export interface IUser {
-    id: number
-    email: string
-    firstName: string
-    lastName: string
-    isAdmin: boolean
-    userType: IUserType
+    id: number;
+    userExId: string;
+    email: string;
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
-
-export interface IUserType {
-    id: number
-    title: string
-}
-
-export interface ITokens {
+export interface AuthResponse {
+    user: IUser
     accessToken: string
     refreshToken: string
 }
 
-export interface AuthResponse {
-    user: IUser
+export interface ITokens {
     accessToken: string
     refreshToken: string
 }

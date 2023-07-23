@@ -7,6 +7,7 @@ import { AuthFormInputs, AuthType } from '../../types/AuthTypes';
 import AuthBottom from '../AuthBottom/AuthBottom';
 import { APP_ROUTER } from '../../config/router';
 import { PLACEHOLDERS, FORM_PLACEHOLDER } from '../../config/placeholders';
+import { useAuth } from '../../../../hooks/useAuth';
 const AuthForm = () => {
 
     const [otp, setOtp] = useState<string>('');
@@ -16,7 +17,7 @@ const AuthForm = () => {
     let navigate = useNavigate();
     let location = useLocation()
     let path = location.pathname.split('/')[1]
-
+    
     const handleSwitch = (type: AuthType ) => {
       reset()
       setType(type)
@@ -85,7 +86,6 @@ const AuthForm = () => {
     useEffect(() => {
         handleType(path)
     },[path])
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='border border-gray-500 rounded-lg text-center px-12 py-10'>
             <h1 id="auth-heading" data-testid="auth-heading" className='font-bold text-xl'>{type}</h1>

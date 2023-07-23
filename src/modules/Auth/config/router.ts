@@ -1,4 +1,9 @@
 export const APP_ROUTER = {
+    HOME: {
+        LINK:'/',
+        TYPE:'home',
+        NAME:'בית'
+    },
     LOGIN : {
         LINK:'/login',
         TYPE:'login',

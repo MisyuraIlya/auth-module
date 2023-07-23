@@ -1,7 +1,7 @@
 import { IInitialState } from "./user.interface"
 import { createSlice } from "@reduxjs/toolkit"
-import { checkAuth, login, logout, register } from "./user.actions"
-import { getStoreLocal } from "@/utils/local-storage"
+import { login, logout, register } from "./user.actions"
+import { getStoreLocal } from "../../utils/local-storage"
 
 const initialState: IInitialState = {
     user: getStoreLocal('user'),
@@ -18,7 +18,7 @@ export const userSlice = createSlice({
         }),
         builder.addCase(register.fulfilled, (state, {payload}) => {
             state.isLoading = false
-            state.user = { ...payload.user, isAdmin:  payload.user.isAdmin , userType:{id:1, title:'admin'} };
+            state.user = payload.user
         })
         builder.addCase(register.rejected, state => {
             state.isLoading = false
@@ -28,7 +28,7 @@ export const userSlice = createSlice({
         })
         builder.addCase(login.fulfilled, (state, {payload}) => {
             state.isLoading = false
-            state.user = { ...payload.user, isAdmin: payload.user.isAdmin , userType:{id:1, title:'admin'} };
+            state.user = payload.user;
         })
         builder.addCase(login.rejected, state => {
             state.isLoading = false
@@ -38,10 +38,5 @@ export const userSlice = createSlice({
             state.isLoading = false
             state.user = null
         })
-        builder.addCase(checkAuth.fulfilled, (state, {payload}) => {
-            state.user = { ...payload.user, isAdmin:  payload.user.isAdmin , userType:{id:1, title:'admin'} };
-        })
-
-
     }
 })
