@@ -1,9 +1,8 @@
-import React, {FC} from 'react';
-import { AuthType } from '../../types/AuthTypes';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from '../../services/auth/auth.service';
 import { APP_ROUTER } from '../../config/router';
-import { FORM_PLACEHOLDER, PLACEHOLDERS } from '../../config/placeholders';
+import { PLACEHOLDERS } from '../../config/placeholders';
 import { useActions } from '../../../../hooks/useActions';
 import { useAuth } from '../../../../hooks/useAuth';
 

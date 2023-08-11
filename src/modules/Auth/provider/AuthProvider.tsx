@@ -17,64 +17,65 @@ const AuthProvider: FC<PropsWithChildren> = ({children}) => {
     useEffect(() => {
         const accessToken = getAccessToken()
         if(accessToken) checkAuth()
-    },[])
+    },[checkAuth])
 
     useEffect(() => {
         const refreshToken = Cookies.get('refreshToken')
         if(!refreshToken && user)  {
             logout()
         }
-    },[pathname])
+    },[pathname,logout, user])
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!user) {
             navigate('/login')
         }
-    },[])
-
-    useEffect(() => {
-        if(user && 
-            (pathname == APP_ROUTER.LOGIN.LINK ||
-             pathname == APP_ROUTER.REGISTER.LINK ||
-             pathname == APP_ROUTER.VALIDATION.LINK ||
-             pathname == APP_ROUTER.TWO_FACTOR.LINK ||
-             pathname == APP_ROUTER.FORGOT_PASSWORD.LINK ||
-             pathname == APP_ROUTER.VALID_USER_PASSWORD_RESTORE.LINK ||
-             pathname == APP_ROUTER.RESTORE_PASSWORD.LINK 
-             )) {
-                navigate(`${APP_ROUTER.HOME.LINK}`)
-        }
     },[user])
 
     useEffect(() => {
-        if(pathname == APP_ROUTER.LOGIN.LINK) {
+        if(user && 
+            (pathname === APP_ROUTER.LOGIN.LINK ||
+             pathname === APP_ROUTER.REGISTER.LINK ||
+             pathname === APP_ROUTER.VALIDATION.LINK ||
+             pathname === APP_ROUTER.TWO_FACTOR.LINK ||
+             pathname === APP_ROUTER.FORGOT_PASSWORD.LINK ||
+             pathname === APP_ROUTER.VALID_USER_PASSWORD_RESTORE.LINK ||
+             pathname === APP_ROUTER.RESTORE_PASSWORD.LINK 
+             )) {
+                navigate(`${APP_ROUTER.HOME.LINK}`)
+        }
+    },[navigate, user, pathname])
+
+    useEffect(() => {
+        if(pathname === APP_ROUTER.LOGIN.LINK) {
             setType(APP_ROUTER.LOGIN.TYPE)
         }
 
-        if(pathname == APP_ROUTER.REGISTER.LINK) {
+        if(pathname === APP_ROUTER.REGISTER.LINK) {
             setType(APP_ROUTER.REGISTER.TYPE)
         }
 
-        if(pathname == APP_ROUTER.VALIDATION.LINK) {
+        if(pathname === APP_ROUTER.VALIDATION.LINK) {
             setType(APP_ROUTER.VALIDATION.TYPE)
         }
 
-        if(pathname == APP_ROUTER.TWO_FACTOR.LINK) {
+        if(pathname === APP_ROUTER.TWO_FACTOR.LINK) {
             setType(APP_ROUTER.TWO_FACTOR.TYPE)
         }
 
-        if(pathname == APP_ROUTER.FORGOT_PASSWORD.LINK) {
+        if(pathname === APP_ROUTER.FORGOT_PASSWORD.LINK) {
             setType(APP_ROUTER.FORGOT_PASSWORD.TYPE)
         }
 
-        if(pathname == APP_ROUTER.VALID_USER_PASSWORD_RESTORE.LINK) {
+        if(pathname === APP_ROUTER.VALID_USER_PASSWORD_RESTORE.LINK) {
             setType(APP_ROUTER.VALID_USER_PASSWORD_RESTORE.TYPE)
         }
 
-        if(pathname == APP_ROUTER.RESTORE_PASSWORD.LINK) {
+        if(pathname === APP_ROUTER.RESTORE_PASSWORD.LINK) {
             setType(APP_ROUTER.RESTORE_PASSWORD.TYPE)
         }
-    },[pathname])
+    },[user, pathname, navigate, setType])
 
     return (
         <>

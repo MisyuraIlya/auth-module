@@ -1,40 +1,12 @@
 import axios from "axios"
-import { BooleanResponse, IUser } from "../../../../types/user.interface";
+import { BooleanResponse } from "../../../../types/user.interface";
 import { saveToStorage } from "./auth.helper";
 import { AuthType } from "../../types/AuthTypes";
-import { ApiResponse } from "../../../../types/api.interface";
 import Cookies from "js-cookie";
 import { getContentType } from "../../../../api/api.helper";
-import { IForgotPassword, ILogin, IRegister, IRestorePassword, ITwoFactor, IValidPasswordRestore, IValidation } from "../../../../store/user/user.interface";
-export type RestApiAuthData = {
-    classPoint: string,
-    funcName: AuthType,
-    val: Auth
-  }
+import { Auth, AuthResponse,RestApiAuthData } from "../../types/AuthTypes";
+import { IForgotPassword, ILogin, IRegister, IRestorePassword, IValidPasswordRestore, IValidation } from "../../../../store/user/user.interface";
 
-export type Auth = {
-    email: string,
-    password: string,
-    //--for register----
-    firstName?: string,
-    lastName?: string,
-    //------------------
-    //--for validation--
-    userExId?: string,
-    phone?: string
-    //------------------
-    token?: string
-}
-
-export type AuthApi = {
-    user: IUser
-    accessToken: string
-    refreshToken: string
-}
-
-export interface AuthResponse extends ApiResponse {
-  data: AuthApi
-}
 
 const Controller = 'AuthController'
 const IsRestApi = JSON.parse(process.env.REACT_APP_IS_REST_API!)

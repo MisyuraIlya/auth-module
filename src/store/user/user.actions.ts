@@ -1,11 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Auth, AuthApi } from "../../modules/Auth/services/auth/auth.service";
+import { AuthApi } from "../../modules/Auth/types/AuthTypes";
 import { ILogin, IRegister} from "./user.interface";
 import { removeFromStorage } from "../../modules/Auth/services/auth/auth.helper";
 import { AuthService } from "../../modules/Auth/services/auth/auth.service";
-import { BooleanResponse} from "../../types/user.interface";
 import {errorCatch} from '../../api/api.helper';
-import { AuthResponse } from "../../modules/Auth/services/auth/auth.service";
+import { AuthResponse } from "../../modules/Auth/types/AuthTypes";
 
 export const login = createAsyncThunk<AuthApi, ILogin>('auth/login',
     async (data, thunkAPI) => {

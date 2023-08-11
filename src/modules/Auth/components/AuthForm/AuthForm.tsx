@@ -15,7 +15,7 @@ const AuthForm = () => {
     const {login, register, setType, setEmail} = useActions()
     const {type} = useAuth()
     const [otp, setOtp] = useState<string>('');
-    const { register: registerForm, handleSubmit, reset , formState: { errors } } = useForm<AuthFormInputs>();
+    const { register: registerForm, handleSubmit , formState: { errors } } = useForm<AuthFormInputs>();
     let navigate = useNavigate();
 
     const onSubmit: SubmitHandler<AuthFormInputs> = async (data) => {

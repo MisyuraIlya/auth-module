@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import {ITokens} from '../../../../types/user.interface'
-import { AuthResponse } from './auth.service'
+import { AuthResponse } from '../../types/AuthTypes'
 
 export const getAccessToken = () => {
     const accessToken = Cookies.get('accessToken')
