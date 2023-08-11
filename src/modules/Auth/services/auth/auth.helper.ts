@@ -1,10 +1,15 @@
 import Cookies from 'js-cookie'
 import {ITokens} from '../../../../types/user.interface'
-import { AuthResponse } from '../../../../types/user.interface'
+import { AuthResponse } from './auth.service'
 
 export const getAccessToken = () => {
     const accessToken = Cookies.get('accessToken')
     return accessToken || null
+}
+
+export const getRefreshToken = () => {
+    const refreshToken = Cookies.get('refreshToken')
+    return refreshToken || null
 }
 
 export const saveTokensStorage = (data: ITokens) => {
@@ -23,6 +28,6 @@ export const removeFromStorage = () => {
 }
 
 export const saveToStorage = (data: AuthResponse) => {
-    saveTokensStorage(data)
-    localStorage.setItem('user', JSON.stringify(data.user))
+    saveTokensStorage(data.data)
+    localStorage.setItem('user', JSON.stringify(data.data.user))
 }

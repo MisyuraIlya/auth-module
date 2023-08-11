@@ -1,27 +1,52 @@
-export const PLACEHOLDERS = {
+
+type FormPlaceholderType = {
+    [key: string]: {
+        VALUE: string;
+        LABEL: string;
+    };
+};
+
+export const PLACEHOLDERS: FormPlaceholderType = {
     LOGIN: {
+        VALUE:'login',
         LABEL:'כניסה'
     },
     REGISTER: {
+        VALUE:'register',
         LABEL: 'הרשמה'
     },
     VALIDATION: {
+        VALUE:'validation',
         LABEL:'אימות משתמש'
     },
+    TWO_FACTOR: {
+        VALUE: "twoFactor",
+        LABEL: "אימות"
+    },
+    VALID_PASSWORD_RESTORE: {
+        VALUE:"validPasswordRestore",
+        LABEL:"אימות"
+    },
     FORGOT_PASSWORD: {
-        LABEL: 'שכחת סיסמא?'
+        VALUE:'forgotPassword',
+        LABEL: 'שכחת סיסמה?'
     },
     BACK_TO_LOGIN: {
+        VALUE:'backToLogin',
         LABEL:'חזרה לכניסה למערכת'
     },
     DONT_GET_TOKEN: {
+        VALUE:'dontGetToken',
         LABEL: 'לא קיבלת סמס?'
     },
     RESTORE_PASSWORD: {
+        VALUE:'restorePassword',
         LABEL: 'שחזר סיסמא'
     }
 }
 
+
+ 
 export const FORM_PLACEHOLDER = {
     EMAIL: {
         VALUE:'email',
@@ -49,7 +74,7 @@ export const FORM_PLACEHOLDER = {
         ERROR:'טלפון שדה חובה'
     },
     USER_EXT_ID: {
-        VALUE:'userExtId',
+        VALUE:'userExId',
         LABEL:'קוד לקוח',
         ERROR:'קוד לקוח שדה חובה'
     },

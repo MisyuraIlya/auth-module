@@ -2,41 +2,50 @@ import { IInitialState } from "./user.interface"
 import { createSlice } from "@reduxjs/toolkit"
 import { login, logout, register } from "./user.actions"
 import { getStoreLocal } from "../../utils/local-storage"
-
 const initialState: IInitialState = {
     user: getStoreLocal('user'),
-    isLoading: false
+    isLoading: false,
+    type: 'login',
+    email: '',
 }
-
 export const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        setType: (state, action) => {
+            state.type = action.payload
+        },
+        setEmail: (state, action) => {
+            state.email = action.payload
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(register.pending, (state) => {
+        builder
+        .addCase(register.pending, (state) => {
+            state.isLoading = true;
+        })
+        .addCase(register.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+            state.user = payload.user;
+        })
+        .addCase(register.rejected, state => {
+            state.isLoading = false;
+        })
+        .addCase(login.pending, state => {
             state.isLoading = true
-        }),
-        builder.addCase(register.fulfilled, (state, {payload}) => {
-            state.isLoading = false
-            state.user = payload.user
         })
-        builder.addCase(register.rejected, state => {
-            state.isLoading = false
-        })
-        builder.addCase(login.pending, state => {
-            state.isLoading = true
-        })
-        builder.addCase(login.fulfilled, (state, {payload}) => {
+        .addCase(login.fulfilled, (state, {payload}) => {
             state.isLoading = false
             state.user = payload.user;
         })
-        builder.addCase(login.rejected, state => {
+        .addCase(login.rejected, state => {
             state.isLoading = false
             state.user = null
         })
-        builder.addCase(logout.fulfilled, state => {
+        .addCase(logout.fulfilled, state => {
             state.isLoading = false
             state.user = null
         })
+
     }
 })

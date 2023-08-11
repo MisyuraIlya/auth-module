@@ -1,10 +1,11 @@
 import axios from "axios"
-import { IUser } from "../../../../types/user.interface";
+import { BooleanResponse, IUser } from "../../../../types/user.interface";
 import { saveToStorage } from "./auth.helper";
 import { AuthType } from "../../types/AuthTypes";
 import { ApiResponse } from "../../../../types/api.interface";
 import Cookies from "js-cookie";
 import { getContentType } from "../../../../api/api.helper";
+import { IForgotPassword, ILogin, IRegister, IRestorePassword, ITwoFactor, IValidPasswordRestore, IValidation } from "../../../../store/user/user.interface";
 export type RestApiAuthData = {
     classPoint: string,
     funcName: AuthType,
@@ -36,11 +37,139 @@ export interface AuthResponse extends ApiResponse {
 }
 
 const Controller = 'AuthController'
+const IsRestApi = JSON.parse(process.env.REACT_APP_IS_REST_API!)
+
 
 export const AuthService = {
+
+  async login(data: ILogin) {
+    
+    let newData = {
+      classPoint: Controller,
+      funcName: 'login',
+      val: data as Auth,
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/login';
+  
+    let requestData = !IsRestApi ? newData : data;
+  
+      const response = await axios.post<AuthResponse>(url, requestData);
+  
+      if (response.data?.data?.accessToken) {
+        saveToStorage(response.data);
+      }
+  
+      return response.data;
+  
+  },
+
+  async register(data: IRegister) {
+    let newData = {
+      classPoint: Controller,
+      funcName: 'register',
+      val: data as Auth,
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/register';
+  
+    let requestData = !IsRestApi ? newData : data;
+  
+      const response = await axios.post<AuthResponse>(url, requestData);
+  
+      if (response.data?.data?.accessToken) {
+        saveToStorage(response.data);
+      }
+  
+      return response.data;
+  },
+
+  async validation(data: IValidation) {
+    let newData = {
+      classPoint: Controller,
+      funcName: 'validation',
+      val: data as Auth,
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/validation';
+  
+    let requestData = !IsRestApi ? newData : data;
+    const response = await axios.post<BooleanResponse>(url, requestData);
+    return response.data;
+  },
+
+  async twoFactor(phone:string, token:string) {
+    let newData = {
+      classPoint: Controller,
+      funcName: 'twoFactor',
+      val: {phone: phone,token},
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/twoFactor';
+  
+    let requestData = !IsRestApi ? newData : {email: phone,token};
+    const response = await axios.post<BooleanResponse>(url, requestData);
+    return response.data;
+  },
+
+  async forgotPassword(data: IForgotPassword) {
+    let newData = {
+      classPoint: Controller,
+      funcName: 'forgotPassword',
+      val: data,
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/forgotPassword';
+  
+    let requestData = !IsRestApi ? newData : data;
+    const response = await axios.post<BooleanResponse>(url, requestData);
+    return response.data;
+  },
+
+  async validPasswordRestore(data: IValidPasswordRestore) {
+    let newData = {
+      classPoint: Controller,
+      funcName: 'validPasswordRestore',
+      val: data,
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/validPasswordRestore';
+  
+    let requestData = !IsRestApi ? newData : data;
+    const response = await axios.post<BooleanResponse>(url, requestData);
+    return response.data;
+  },
+
+  async restorePassword(data: IRestorePassword) {
+    let newData = {
+      classPoint: Controller,
+      funcName: 'restorePassword',
+      val: data,
+    };
+  
+    let url = !IsRestApi
+      ? process.env.REACT_APP_SERVER || '' 
+      : process.env.REACT_APP_SERVER + '/auth/restorePassword';
+  
+    let requestData = !IsRestApi ? newData : data;
+    const response = await axios.post<BooleanResponse>(url, requestData);
+    return response.data;
+  },
+
   async auth(type: AuthType, data: Auth | RestApiAuthData) {
     let url 
-    const IsRestApi = JSON.parse(process.env.REACT_APP_IS_REST_API!)
     if (!IsRestApi) {
       url = process.env.REACT_APP_SERVER
     } else {
@@ -48,11 +177,10 @@ export const AuthService = {
     }
     
     if (!IsRestApi) {
-      // Assert that data is of type RestApiAuthData
       data = {
         classPoint: Controller,
         funcName: type,
-        val: data as Auth // You need to ensure that 'data' is of type 'Auth' inside the RestApiAuthData
+        val: data as Auth 
       };
     }
 
@@ -62,7 +190,7 @@ export const AuthService = {
       data
     })
 
-    if (response.data?.data?.accessToken) saveToStorage(response.data.data)
+    if (response.data?.data?.accessToken) saveToStorage(response.data)
 
     return response.data.data
   },
@@ -83,13 +211,12 @@ export const AuthService = {
     }
 
     if (!IsRestApi) {
-      // Assert that data is of type RestApiAuthData
       data = {
         classPoint: Controller,
         funcName: 'accessToken',
         val: {
           refreshToken
-        }  // You need to ensure that 'data' is of type 'Auth' inside the RestApiAuthData
+        } 
       };
     } else {
       data = refreshToken
@@ -102,7 +229,7 @@ export const AuthService = {
       data
     })
 
-    if(response.data.data.accessToken) saveToStorage(response.data.data)
+    if(response.data.data.accessToken) saveToStorage(response.data)
 
     return response
   }

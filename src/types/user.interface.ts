@@ -6,10 +6,10 @@ export interface IUser {
     createdAt: Date;
     updatedAt: Date;
 }
-export interface AuthResponse {
-    user: IUser
-    accessToken: string
-    refreshToken: string
+
+
+export interface BooleanResponse {
+    data: boolean
 }
 
 export interface ITokens {
