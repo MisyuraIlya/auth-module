@@ -1,5 +1,5 @@
-import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import { FLUSH,PAUSE,PERSIST, persistReducer, persistStore,PURGE, REGISTER, REHYDRATE } from "redux-persist";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {  persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 import { userSlice } from "./user/user.slice";
 
@@ -19,9 +19,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware => 
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActionPaths: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-      }
+      serializableCheck: false
     })
 })
 
