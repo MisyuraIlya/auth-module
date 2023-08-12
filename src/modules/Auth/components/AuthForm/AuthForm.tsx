@@ -93,6 +93,7 @@ const AuthForm = () => {
                 <div>
                     <input 
                     id="email" 
+                    data-testid="email"
                     {...registerForm(FORM_PLACEHOLDER.EMAIL.VALUE as keyof AuthFormInputs)}  
                     placeholder={FORM_PLACEHOLDER.EMAIL.LABEL} 
                     className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'
@@ -106,6 +107,7 @@ const AuthForm = () => {
                     <div>
                         <input 
                         id="firstName" 
+                        data-testid="firstName"
                         {...registerForm(FORM_PLACEHOLDER.FIRSTNAME.VALUE  as keyof AuthFormInputs)}  
                         placeholder={FORM_PLACEHOLDER.FIRSTNAME.LABEL} 
                         className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2' 
@@ -115,6 +117,7 @@ const AuthForm = () => {
                     <div>
                         <input 
                         id="lastName" 
+                        data-testid="lastName"
                         {...registerForm(FORM_PLACEHOLDER.LASTNAME.VALUE  as keyof AuthFormInputs)}  
                         placeholder={FORM_PLACEHOLDER.LASTNAME.LABEL} 
                         className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'
@@ -128,6 +131,7 @@ const AuthForm = () => {
                     <div>
                         <input 
                         id="userExId" 
+                        data-testid="userExId"
                         {...registerForm(FORM_PLACEHOLDER.USER_EXT_ID.VALUE  as keyof AuthFormInputs)}  
                         placeholder={FORM_PLACEHOLDER.USER_EXT_ID.LABEL} 
                         className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'
@@ -142,6 +146,7 @@ const AuthForm = () => {
                  <div>
                     <input 
                     id="phone" 
+                    data-testid="phone"
                     {...registerForm(FORM_PLACEHOLDER.PHONE.VALUE  as keyof AuthFormInputs)}  
                     placeholder={FORM_PLACEHOLDER.PHONE.LABEL} 
                     className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'
@@ -155,6 +160,7 @@ const AuthForm = () => {
                 <div>
                     <input 
                     id="password" 
+                    data-testid="password"
                     {...registerForm(FORM_PLACEHOLDER.PASSWORD.VALUE  as keyof AuthFormInputs, { required: true })} 
                     placeholder={FORM_PLACEHOLDER.PASSWORD.LABEL} 
                     className='px-2 py-2 border border-gray-400 rounded-md w-96 m-2'

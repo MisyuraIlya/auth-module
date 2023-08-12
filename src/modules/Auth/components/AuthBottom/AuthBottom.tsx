@@ -38,6 +38,7 @@ const AuthBottom = () => {
                 <div>
                     <span 
                     className='underline cursor-pointer' 
+                    data-testid="forgotPassword-btn" 
                     onClick={() => {setType(APP_ROUTER.FORGOT_PASSWORD.TYPE); navigate(`${APP_ROUTER.FORGOT_PASSWORD.LINK}`)}}
                     >
                         {PLACEHOLDERS.FORGOT_PASSWORD.LABEL}
@@ -51,6 +52,7 @@ const AuthBottom = () => {
                 <div className='py-2'>
                     <span 
                     className='underline cursor-pointer' 
+                    data-testid="backToLogin-btn" 
                     onClick={() => setType(APP_ROUTER.LOGIN.TYPE)}
                     >
                         {PLACEHOLDERS.BACK_TO_LOGIN.LABEL}
