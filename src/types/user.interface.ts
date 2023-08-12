@@ -1,3 +1,5 @@
+import { ApiResponse } from "./api.interface";
+
 export interface IUser {
     id: number;
     userExId: string;
@@ -8,7 +10,7 @@ export interface IUser {
 }
 
 
-export interface BooleanResponse {
+export interface BooleanResponse extends ApiResponse {
     data: boolean
 }
 

@@ -1,26 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AuthApi } from "../../modules/Auth/types/AuthTypes";
+import { AuthResponse } from "../../modules/Auth/types/AuthTypes";
 import { ILogin, IRegister} from "./user.interface";
 import { removeFromStorage } from "../../modules/Auth/services/auth/auth.helper";
 import { AuthService } from "../../modules/Auth/services/auth/auth.service";
 import {errorCatch} from '../../api/api.helper';
-import { AuthResponse } from "../../modules/Auth/types/AuthTypes";
 
-export const login = createAsyncThunk<AuthApi, ILogin>('auth/login',
+export const login = createAsyncThunk<AuthResponse, ILogin>('auth/login',
     async (data, thunkAPI) => {
         try {
             const response = await AuthService.login(data)
             return response.data
         } catch(error: any) {
-            if (error.response) {
-                // onErrorAlert(error.response.data.message, 'כדאי לבדוק את הפרטים שהזנת ולנסות שוב')
-            }
             return thunkAPI.rejectWithValue(error)
         }
     }
 )
 
-export const register = createAsyncThunk<AuthApi , IRegister> ('auth/register',
+export const register = createAsyncThunk<AuthResponse , IRegister> ('auth/register',
     async(data,thunkApi) => {
         try {
             const response = await AuthService.register(data)
@@ -36,7 +32,12 @@ export const checkAuth = createAsyncThunk<AuthResponse>(
     async(_, thunkAPI) => {
         try {
             const response = await AuthService.getNewTokens()
-            return response.data
+            if(response.data.status === 'success') {
+                return response.data
+
+            } else {
+                return thunkAPI.rejectWithValue(response.data.message) 
+            }
         } catch(error) {
             if(errorCatch(error) === 'jwt expired') {
                 thunkAPI.dispatch(logout())

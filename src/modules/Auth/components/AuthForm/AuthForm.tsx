@@ -10,15 +10,19 @@ import { FORM_PLACEHOLDER } from '../../config/placeholders';
 import { useAuth } from '../../../../hooks/useAuth';
 import { useActions } from '../../../../hooks/useActions';
 import { getTypeName } from '../../helpers/getTypeName';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const AuthForm = () => {
-    const {login, register, setType, setEmail} = useActions()
+    const {login, register, setType, setEmail, setErrorMessage} = useActions()
     const {type} = useAuth()
     const [otp, setOtp] = useState<string>('');
+
     const { register: registerForm, handleSubmit , formState: { errors } } = useForm<AuthFormInputs>();
+
     let navigate = useNavigate();
 
     const onSubmit: SubmitHandler<AuthFormInputs> = async (data) => {
+        setErrorMessage('')
         if(otp) {
             data.token = otp
         }
@@ -31,47 +35,52 @@ const AuthForm = () => {
         }
         if(type === APP_ROUTER.VALIDATION.TYPE) {
             const response = await AuthService.validation(data);
-            if(response.data) {
-                navigate(APP_ROUTER.TWO_FACTOR.LINK)
-                setType(APP_ROUTER.TWO_FACTOR.TYPE as AuthType)
+            if(response.data.status === 'success') {
+                    navigate(APP_ROUTER.TWO_FACTOR.LINK)
+                    setType(APP_ROUTER.TWO_FACTOR.TYPE as AuthType)
+            } else {
+                setErrorMessage(response.data.message)
             }
-
         }
         if(type === APP_ROUTER.TWO_FACTOR.TYPE) {
             const response = await AuthService.twoFactor(data.phone,otp)
-            if(response.data) {
+            if(response.data.status === 'success') {
                 setOtp('')
                 setType(APP_ROUTER.REGISTER.TYPE as AuthType)
                 navigate(APP_ROUTER.REGISTER.LINK)
-            } 
+            } else {
+                setErrorMessage(response.data.message)
+            }
         }
-
         if(type === APP_ROUTER.FORGOT_PASSWORD.TYPE) {
             const response = await AuthService.forgotPassword(data)
-            if(response.data) {
+            if(response.data.status === 'success') {
                 setEmail(data.email)
                 setType(APP_ROUTER.VALID_USER_PASSWORD_RESTORE.TYPE as AuthType) 
                 navigate(APP_ROUTER.VALID_USER_PASSWORD_RESTORE.LINK)
+            } else {
+                setErrorMessage(response.data.message)
             }
-        
         }   
 
         if(type === APP_ROUTER.VALID_USER_PASSWORD_RESTORE.TYPE) {
             const response = await AuthService.validPasswordRestore(data)
-            if(response.data) {
+            if(response.data.status === 'success') {
                 setType(APP_ROUTER.RESTORE_PASSWORD.TYPE as AuthType) 
                 navigate(APP_ROUTER.RESTORE_PASSWORD.LINK)
+            } else {
+                setErrorMessage(response.data.message)
             }
-
          }   
          if(type === APP_ROUTER.RESTORE_PASSWORD.TYPE) {
             const response = await AuthService.restorePassword(data)
-            if(response.data){
+            if(response.data.status === 'success'){
                 setType(APP_ROUTER.LOGIN.TYPE as AuthType)
                 navigate(APP_ROUTER.LOGIN.LINK)
-                setOtp('')
+                setOtp('') 
+            }   else {
+                setErrorMessage(response.data.message)
             }
-
          }
 
     }
@@ -168,7 +177,7 @@ const AuthForm = () => {
             }
 
             <AuthBottom/>
-
+            <ErrorMessage/>
 
             <div className='m-2'>
                 <button id="auth-btn" data-testid="auth-btn" type="submit" className='font-bold bg-blue-400 text-white py-2 rounded-xl px-12 hover:bg-blue-600'>{getTypeName(type)}</button>

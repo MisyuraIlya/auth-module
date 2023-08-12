@@ -5,6 +5,8 @@ export interface IInitialState {
     isLoading: boolean
     type: AuthType
     email: string
+    errorMessage:string
+    message: string
 }
 
 export interface ILogin {

@@ -7,6 +7,8 @@ const initialState: IInitialState = {
     isLoading: false,
     type: 'login',
     email: '',
+    errorMessage: '',
+    message:''
 }
 export const userSlice = createSlice({
     name: 'user',
@@ -17,6 +19,9 @@ export const userSlice = createSlice({
         },
         setEmail: (state, action) => {
             state.email = action.payload
+        },
+        setErrorMessage: (state, action) => {
+            state.errorMessage = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -26,7 +31,8 @@ export const userSlice = createSlice({
         })
         .addCase(register.fulfilled, (state, {payload}) => {
             state.isLoading = false;
-            state.user = payload.user;
+            state.user = payload.data.user;
+            state.message = payload.message
         })
         .addCase(register.rejected, state => {
             state.isLoading = false;
@@ -35,8 +41,15 @@ export const userSlice = createSlice({
             state.isLoading = true
         })
         .addCase(login.fulfilled, (state, {payload}) => {
-            state.isLoading = false
-            state.user = payload.user;
+            if(payload.status === 'success') {
+                state.isLoading = false
+                state.user = payload.data.user;
+                state.message = payload.message;
+            } else {
+                state.isLoading = false
+                state.errorMessage = payload.message
+            }
+
         })
         .addCase(login.rejected, state => {
             state.isLoading = false

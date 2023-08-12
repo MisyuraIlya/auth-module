@@ -34,7 +34,7 @@ export const AuthService = {
         saveToStorage(response.data);
       }
   
-      return response.data;
+      return response;
   
   },
 
@@ -57,7 +57,7 @@ export const AuthService = {
         saveToStorage(response.data);
       }
   
-      return response.data;
+      return response;
   },
 
   async validation(data: IValidation) {
@@ -73,7 +73,7 @@ export const AuthService = {
   
     let requestData = !IsRestApi ? newData : data;
     const response = await axios.post<BooleanResponse>(url, requestData);
-    return response.data;
+    return response;
   },
 
   async twoFactor(phone:string, token:string) {
@@ -89,7 +89,7 @@ export const AuthService = {
   
     let requestData = !IsRestApi ? newData : {email: phone,token};
     const response = await axios.post<BooleanResponse>(url, requestData);
-    return response.data;
+    return response;
   },
 
   async forgotPassword(data: IForgotPassword) {
@@ -105,7 +105,7 @@ export const AuthService = {
   
     let requestData = !IsRestApi ? newData : data;
     const response = await axios.post<BooleanResponse>(url, requestData);
-    return response.data;
+    return response;
   },
 
   async validPasswordRestore(data: IValidPasswordRestore) {
@@ -121,7 +121,7 @@ export const AuthService = {
   
     let requestData = !IsRestApi ? newData : data;
     const response = await axios.post<BooleanResponse>(url, requestData);
-    return response.data;
+    return response;
   },
 
   async restorePassword(data: IRestorePassword) {
@@ -137,7 +137,7 @@ export const AuthService = {
   
     let requestData = !IsRestApi ? newData : data;
     const response = await axios.post<BooleanResponse>(url, requestData);
-    return response.data;
+    return response;
   },
 
   async auth(type: AuthType, data: Auth | RestApiAuthData) {
