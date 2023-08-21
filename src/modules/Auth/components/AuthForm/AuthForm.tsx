@@ -171,7 +171,7 @@ const AuthForm = () => {
             }
             {
                (type === APP_ROUTER.TWO_FACTOR.TYPE || type === APP_ROUTER.VALID_USER_PASSWORD_RESTORE.TYPE) &&
-               <div className='flex justify-center items-center'>
+               <div className='flex justify-center items-center' id="twoFactor">
                     <OtpInput
                     value={otp}
                     onChange={setOtp}
